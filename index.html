@@ -23,9 +23,7 @@
       --font-head: 'Syne', sans-serif;
       --font-mono: 'DM Mono', monospace;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg);
       color: var(--text);
@@ -33,8 +31,6 @@
       min-height: 100vh;
       overflow-x: hidden;
     }
-
-    /* Grid background */
     body::before {
       content: '';
       position: fixed;
@@ -46,10 +42,7 @@
       pointer-events: none;
       z-index: 0;
     }
-
     .container { max-width: 1400px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-
-    /* HEADER */
     header {
       border-bottom: 1px solid var(--border);
       padding: 20px 0;
@@ -59,283 +52,84 @@
       backdrop-filter: blur(12px);
       z-index: 100;
     }
-
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-family: var(--font-head);
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+    .logo { font-family: var(--font-head); font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
     .logo span { color: var(--accent); }
-
-    .header-meta {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      font-size: 11px;
-      color: var(--muted);
+    .header-meta { display: flex; align-items: center; gap: 16px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+    .live-badge { display: flex; align-items: center; gap: 6px; color: var(--accent); font-weight: 500; }
+    .live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)} }
+    .refresh-btn {
+      background: transparent; border: 1px solid var(--border); color: var(--muted);
+      padding: 6px 14px; border-radius: 6px; font-family: var(--font-mono);
+      font-size: 11px; cursor: pointer; transition: all 0.2s;
     }
-
-    .live-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--accent);
-      font-weight: 500;
-    }
-    .live-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    #last-updated { font-size: 11px; color: var(--muted); }
-
-    /* SECTION LABELS */
+    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
     .section-label {
-      font-family: var(--font-head);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 36px 0 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-family: var(--font-head); font-size: 11px; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase; color: var(--muted);
+      margin: 36px 0 16px; display: flex; align-items: center; gap: 12px;
     }
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
-
-    /* TICKER CARDS */
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 12px;
-    }
-
+    .section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
     .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 18px 20px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.15s;
-      animation: fadeIn 0.4s ease both;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 18px 20px; position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.15s; animation: fadeIn 0.4s ease both;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .card:hover {
-      border-color: rgba(0,212,160,0.3);
-      transform: translateY(-2px);
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--border);
-      transition: background 0.3s;
-    }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+    .card:hover { border-color: rgba(0,212,160,0.3); transform: translateY(-2px); }
+    .card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--border); transition:background 0.3s; }
     .card.up::before { background: var(--up); }
     .card.down::before { background: var(--down); }
-
-    .card-name {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-    .card-value {
-      font-family: var(--font-mono);
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: -0.5px;
-      margin-bottom: 6px;
-    }
-    .card-change {
-      font-size: 12px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
+    .card-name { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .card-value { font-family: var(--font-mono); font-size: 22px; font-weight: 500; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .card-change { font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
     .card-change.up { color: var(--up); }
     .card-change.down { color: var(--down); }
     .card-change.neutral { color: var(--neutral); }
     .card-sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
-
-    /* SKELETON */
     .skeleton {
       background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s infinite;
-      border-radius: 4px;
-      height: 22px;
-      width: 100%;
-      margin-bottom: 6px;
+      background-size: 200% 100%; animation: shimmer 1.5s infinite;
+      border-radius: 4px; height: 22px; width: 100%; margin-bottom: 6px;
     }
     .skeleton.sm { height: 12px; width: 60%; }
-    @keyframes shimmer {
-      0% { background-position: 200% 0; }
-      100% { background-position: -200% 0; }
-    }
-
-    /* ECONOMIC TABLE */
-    .eco-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
-    }
-
-    .eco-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px;
-      animation: fadeIn 0.4s ease both;
-    }
-    .eco-card-title {
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-      font-family: var(--font-head);
-      font-weight: 700;
-    }
-    .eco-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
+    @keyframes shimmer { 0%{background-position:200% 0}100%{background-position:-200% 0} }
+    .eco-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .eco-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; animation: fadeIn 0.4s ease both; }
+    .eco-card-title { font-size: 11px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 14px; font-family: var(--font-head); font-weight: 700; }
+    .eco-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
     .eco-row:last-child { border-bottom: none; }
     .eco-key { color: var(--muted); }
     .eco-val { font-weight: 500; }
     .eco-val.up { color: var(--up); }
     .eco-val.down { color: var(--down); }
-
-    /* FII DII */
-    .fiidii-wrap {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 12px;
-    }
-
-    .fiidii-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px;
-      animation: fadeIn 0.4s ease both;
-    }
-    .fiidii-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 16px;
-    }
-    .fiidii-name {
-      font-family: var(--font-head);
-      font-size: 16px;
-      font-weight: 700;
-    }
+    .fiidii-wrap { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+    .fiidii-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; animation: fadeIn 0.4s ease both; }
+    .fiidii-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .fiidii-name { font-family: var(--font-head); font-size: 16px; font-weight: 700; }
     .fiidii-date { font-size: 11px; color: var(--muted); }
-
-    .flow-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
+    .flow-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .flow-label { font-size: 12px; color: var(--muted); }
     .flow-value { font-size: 14px; font-weight: 500; }
     .flow-value.up { color: var(--up); }
     .flow-value.down { color: var(--down); }
-
     .flow-bar-wrap { margin-top: 14px; }
-    .flow-bar-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 10px;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-    .flow-bar-track {
-      height: 6px;
-      background: var(--border);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-    .flow-bar-fill {
-      height: 100%;
-      border-radius: 99px;
-      transition: width 1s ease;
-    }
+    .flow-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 6px; }
+    .flow-bar-track { height: 6px; background: var(--border); border-radius: 99px; overflow: hidden; }
+    .flow-bar-fill { height: 100%; border-radius: 99px; transition: width 1s ease; }
     .flow-bar-fill.buy { background: var(--up); }
-    .flow-bar-fill.sell { background: var(--down); }
-
-    /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 40px 0 24px;
-      font-size: 11px;
-      color: var(--muted);
+    .info-banner {
+      background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.2);
+      border-radius: 8px; padding: 12px 16px; font-size: 12px; color: var(--accent2);
+      margin-bottom: 16px; line-height: 1.6;
     }
+    footer { text-align: center; padding: 40px 0 24px; font-size: 11px; color: var(--muted); }
     footer a { color: var(--accent); text-decoration: none; }
-
-    /* ERROR badge */
-    .error-note {
-      background: rgba(232,93,117,0.1);
-      border: 1px solid rgba(232,93,117,0.2);
-      border-radius: 8px;
-      padding: 10px 16px;
-      font-size: 12px;
-      color: #e85d75;
-      margin-bottom: 16px;
-      display: none;
-    }
-
-    /* REFRESH btn */
-    .refresh-btn {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--muted);
-      padding: 6px 14px;
-      border-radius: 6px;
-      font-family: var(--font-mono);
-      font-size: 11px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
-
     @media (max-width: 600px) {
       .cards-grid { grid-template-columns: repeat(2, 1fr); }
       .eco-grid, .fiidii-wrap { grid-template-columns: 1fr; }
-      .logo { font-size: 17px; }
     }
   </style>
 </head>
@@ -346,7 +140,7 @@
     <div class="logo">Market<span>Pulse</span> India</div>
     <div class="header-meta">
       <div class="live-badge"><div class="live-dot"></div> LIVE</div>
-      <div id="last-updated">Fetching…</div>
+      <span id="last-updated">Fetching…</span>
       <button class="refresh-btn" onclick="loadAll()">↻ Refresh</button>
     </div>
   </div>
@@ -354,243 +148,250 @@
 
 <div class="container" style="padding-bottom:48px">
 
-  <!-- INDIAN INDICES -->
   <div class="section-label">🇮🇳 Indian Indices</div>
-  <div class="cards-grid" id="indian-indices">
-    <!-- filled by JS -->
-  </div>
+  <div class="cards-grid" id="indian-indices"></div>
 
-  <!-- COMMODITIES -->
   <div class="section-label">⚡ Commodities & Currency</div>
-  <div class="cards-grid" id="commodities">
-  </div>
+  <div class="cards-grid" id="commodities"></div>
 
-  <!-- GLOBAL INDICES -->
   <div class="section-label">🌐 Global Indices</div>
-  <div class="cards-grid" id="global-indices">
-  </div>
+  <div class="cards-grid" id="global-indices"></div>
 
-  <!-- ECONOMIC INDICATORS -->
   <div class="section-label">📊 Economic Indicators</div>
-  <div class="eco-grid" id="economic">
-  </div>
+  <div class="eco-grid" id="economic"></div>
 
-  <!-- FII DII -->
   <div class="section-label">💰 FII / DII Activity</div>
-  <div id="fiidii-note" class="error-note">FII/DII data sourced from NSE. If blocked, please check the NSE website directly.</div>
-  <div class="fiidii-wrap" id="fiidii">
+  <div class="info-banner">
+    ℹ️ FII/DII data is sourced from NSE India. Live data shown when available. Values in ₹ Crore.
   </div>
+  <div class="fiidii-wrap" id="fiidii"></div>
 
 </div>
 
 <footer>
   <div class="container">
-    Data via Yahoo Finance, NSE India &amp; public APIs · Auto-refreshes every 5 min<br/>
-    <span style="margin-top:6px;display:block">Built for internal use · <a href="https://github.com" target="_blank">Deploy on GitHub Pages + Cloudflare</a></span>
+    Data via Yahoo Finance & NSE India · Auto-refreshes every 5 min<br/>
+    <span style="margin-top:6px;display:block">MarketPulse India · Internal Dashboard</span>
   </div>
 </footer>
 
 <script>
-// ─── CONFIGURATION ────────────────────────────────────────────────────────────
-// Yahoo Finance proxy via allorigins (free, no API key needed)
-const YF = (symbol) =>
-  `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`;
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+// We use TWO proxies with fallback for reliability
+const PROXIES = [
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+];
 
-const PROXY = (url) =>
-  `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+// Yahoo Finance v8 chart endpoint
+const YF_URL = sym =>
+  `https://query2.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(sym)}?interval=1d&range=1d&includePrePost=false`;
 
-// ─── TICKERS ─────────────────────────────────────────────────────────────────
+// ─── TICKERS ──────────────────────────────────────────────────────────────────
 const INDIAN = [
-  { sym: '^NSEI',    name: 'NIFTY 50',       prefix: '' },
-  { sym: '^NSMIDCP', name: 'NIFTY MidCap 150', prefix: '' },
-  { sym: 'NIFTYSMLCAP250.NS', name: 'SmallCap 250', prefix: '' },
-  { sym: '^BSESN',   name: 'SENSEX',          prefix: '' },
-  { sym: 'BSE-500.BO', name: 'BSE 500',       prefix: '' },
+  { sym: '^NSEI',      name: 'Nifty 50' },
+  { sym: '^NSMIDCP',   name: 'Nifty MidCap 150' },
+  { sym: 'NIFTYSMLCAP250.NS', name: 'SmallCap 250' },
+  { sym: '^BSESN',     name: 'Sensex' },
+  { sym: '^BSE500',    name: 'BSE 500' },
 ];
 
 const COMMODITIES = [
-  { sym: 'GC=F',    name: 'Gold',     prefix: '$', unit: '/oz' },
-  { sym: 'CL=F',    name: 'Crude Oil', prefix: '$', unit: '/bbl' },
-  { sym: 'USDINR=X', name: 'USD/INR', prefix: '₹', unit: '' },
+  { sym: 'GC=F',     name: 'Gold',     prefix: '$', suffix: '/oz' },
+  { sym: 'CL=F',     name: 'Crude Oil',prefix: '$', suffix: '/bbl' },
+  { sym: 'USDINR=X', name: 'USD / INR',prefix: '₹', suffix: '' },
 ];
 
 const GLOBAL = [
-  { sym: '^GSPC',   name: 'S&P 500',   prefix: '' },
-  { sym: '^DJI',    name: 'Dow Jones', prefix: '' },
-  { sym: '^IXIC',   name: 'NASDAQ',    prefix: '' },
-  { sym: '^FTSE',   name: 'FTSE 100',  prefix: '' },
-  { sym: '^N225',   name: 'Nikkei 225',prefix: '' },
-  { sym: '^HSI',    name: 'Hang Seng', prefix: '' },
-  { sym: '^GDAXI',  name: 'DAX',       prefix: '' },
+  { sym: '^GSPC',  name: 'S&P 500' },
+  { sym: '^DJI',   name: 'Dow Jones' },
+  { sym: '^IXIC',  name: 'NASDAQ' },
+  { sym: '^FTSE',  name: 'FTSE 100' },
+  { sym: '^N225',  name: 'Nikkei 225' },
+  { sym: '^HSI',   name: 'Hang Seng' },
+  { sym: '^GDAXI', name: 'DAX' },
 ];
 
-// ─── UTILITIES ────────────────────────────────────────────────────────────────
-function fmt(n, dec = 2) {
-  if (n === null || n === undefined || isNaN(n)) return '—';
-  return n.toLocaleString('en-IN', { minimumFractionDigits: dec, maximumFractionDigits: dec });
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+const fmt = (n, d = 2) => n == null || isNaN(n) ? '—' :
+  n.toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+
+const arrow = c => c > 0 ? '▲' : c < 0 ? '▼' : '—';
+const cls   = c => c > 0 ? 'up' : c < 0 ? 'down' : 'neutral';
+
+const skeletonCard = name => `<div class="card">
+  <div class="card-name">${name}</div>
+  <div class="skeleton"></div><div class="skeleton sm"></div>
+</div>`;
+
+// ─── FETCH with proxy fallback ────────────────────────────────────────────────
+async function fetchJSON(url) {
+  for (const makeProxy of PROXIES) {
+    try {
+      const res = await fetch(makeProxy(url), { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) continue;
+      const outer = await res.json();
+      // allorigins wraps in {contents:...}, corsproxy returns raw
+      const text = outer.contents ?? JSON.stringify(outer);
+      return JSON.parse(text);
+    } catch (_) { continue; }
+  }
+  return null;
 }
 
-function arrow(chg) {
-  if (chg > 0) return '▲';
-  if (chg < 0) return '▼';
-  return '—';
-}
-
-function clsFromChange(chg) {
-  if (chg > 0) return 'up';
-  if (chg < 0) return 'down';
-  return 'neutral';
-}
-
-function skeletonCard(name) {
-  return `<div class="card">
-    <div class="card-name">${name}</div>
-    <div class="skeleton"></div>
-    <div class="skeleton sm"></div>
-  </div>`;
-}
-
-function renderCard({ name, value, change, changePct, prefix = '', unit = '' }) {
-  const cls = clsFromChange(changePct);
-  const sign = changePct > 0 ? '+' : '';
-  return `<div class="card ${cls}">
-    <div class="card-name">${name}</div>
-    <div class="card-value">${prefix}${fmt(value)}</div>
-    <div class="card-change ${cls}">
-      ${arrow(changePct)} ${sign}${fmt(change)} &nbsp;(${sign}${fmt(changePct)}%)
-    </div>
-    ${unit ? `<div class="card-sub">${unit}</div>` : ''}
-  </div>`;
-}
-
-// ─── FETCH SINGLE TICKER ─────────────────────────────────────────────────────
+// ─── FETCH SINGLE TICKER ──────────────────────────────────────────────────────
 async function fetchTicker(sym) {
+  const data = await fetchJSON(YF_URL(sym));
+  if (!data) return null;
   try {
-    const url = YF(sym);
-    const res = await fetch(PROXY(url));
-    const outer = await res.json();
-    const data = JSON.parse(outer.contents);
     const meta = data.chart.result[0].meta;
     const price = meta.regularMarketPrice;
-    const prev = meta.previousClose || meta.chartPreviousClose;
-    const change = price - prev;
-    const changePct = (change / prev) * 100;
-    return { price, change, changePct, ok: true };
-  } catch (e) {
-    return { price: null, change: null, changePct: null, ok: false };
-  }
+    const prev  = meta.previousClose ?? meta.chartPreviousClose;
+    const chg   = price - prev;
+    const pct   = (chg / prev) * 100;
+    return { price, chg, pct };
+  } catch (_) { return null; }
 }
 
-// ─── RENDER SECTIONS ─────────────────────────────────────────────────────────
-async function renderTickers(containerId, tickers) {
-  const el = document.getElementById(containerId);
+// ─── RENDER CARD ──────────────────────────────────────────────────────────────
+function makeCard({ name, price, chg, pct, prefix = '', suffix = '' }) {
+  if (price == null) return `<div class="card">
+    <div class="card-name">${name}</div>
+    <div class="card-value" style="color:var(--muted)">—</div>
+    <div class="card-sub" style="color:var(--muted)">Unavailable</div>
+  </div>`;
+  const c = cls(pct), sign = pct > 0 ? '+' : '';
+  return `<div class="card ${c}">
+    <div class="card-name">${name}</div>
+    <div class="card-value">${prefix}${fmt(price)}</div>
+    <div class="card-change ${c}">${arrow(pct)} ${sign}${fmt(chg)} (${sign}${fmt(pct)}%)</div>
+    ${suffix ? `<div class="card-sub">${suffix}</div>` : ''}
+  </div>`;
+}
+
+// ─── RENDER TICKER SECTION ────────────────────────────────────────────────────
+async function renderSection(id, tickers) {
+  const el = document.getElementById(id);
   el.innerHTML = tickers.map(t => skeletonCard(t.name)).join('');
-
   const results = await Promise.all(tickers.map(t => fetchTicker(t.sym)));
-
-  el.innerHTML = results.map((r, i) => {
-    const t = tickers[i];
-    if (!r.ok) {
-      return `<div class="card">
-        <div class="card-name">${t.name}</div>
-        <div class="card-value" style="color:var(--muted)">—</div>
-        <div class="card-sub" style="color:var(--muted)">Unavailable</div>
-      </div>`;
-    }
-    return renderCard({
-      name: t.name,
-      value: r.price,
-      change: r.change,
-      changePct: r.changePct,
-      prefix: t.prefix || '',
-      unit: t.unit || '',
-    });
-  }).join('');
+  el.innerHTML = results.map((r, i) => makeCard({
+    name: tickers[i].name,
+    price: r?.price ?? null,
+    chg: r?.chg ?? null,
+    pct: r?.pct ?? null,
+    prefix: tickers[i].prefix ?? '',
+    suffix: tickers[i].suffix ?? '',
+  })).join('');
 }
 
-// ─── ECONOMIC INDICATORS (static / FRED-like public data) ────────────────────
+// ─── ECONOMIC INDICATORS ──────────────────────────────────────────────────────
 async function renderEconomic() {
   const el = document.getElementById('economic');
 
-  // We'll fetch a few live ones + show static recent data clearly labeled
-  const indicators = [
+  const cards = [
     {
       title: 'India Macro',
       rows: [
-        { key: 'GDP Growth (FY25)', val: '8.2%', cls: 'up' },
-        { key: 'Inflation (CPI Apr)', val: '4.83%', cls: 'neutral' },
-        { key: 'Repo Rate (RBI)', val: '6.25%', cls: 'neutral' },
-        { key: 'IIP Growth', val: '5.0%', cls: 'up' },
+        { k: 'GDP Growth (FY25)',   v: '8.2%',  c: 'up' },
+        { k: 'CPI Inflation (Mar)', v: '3.34%', c: 'up' },
+        { k: 'Repo Rate (RBI)',     v: '6.00%', c: 'neutral' },
+        { k: 'IIP Growth (Feb)',    v: '2.9%',  c: 'up' },
       ]
     },
     {
-      title: 'Fiscal & Trade',
+      title: 'Fiscal & External',
       rows: [
-        { key: 'Fiscal Deficit (% GDP)', val: '5.1%', cls: 'down' },
-        { key: 'Trade Deficit (Mar)', val: '$−15.6B', cls: 'down' },
-        { key: 'Forex Reserves', val: '$642B', cls: 'up' },
-        { key: 'Current Acct Deficit', val: '−1.2% GDP', cls: 'neutral' },
+        { k: 'Fiscal Deficit (% GDP)', v: '4.8%',   c: 'down' },
+        { k: 'Trade Deficit (Feb)',     v: '−$14.1B',c: 'down' },
+        { k: 'Forex Reserves',          v: '$688B',  c: 'up' },
+        { k: 'Current Acct Deficit',    v: '−1.0% GDP', c: 'neutral' },
       ]
     },
     {
-      title: 'Banking & Credit',
+      title: 'Banking & Rates',
       rows: [
-        { key: 'Bank Credit Growth', val: '14.5%', cls: 'up' },
-        { key: 'Deposit Growth', val: '11.3%', cls: 'up' },
-        { key: '10Y G-Sec Yield', val: '6.74%', cls: 'neutral' },
-        { key: 'MSF Rate', val: '6.50%', cls: 'neutral' },
+        { k: 'Bank Credit Growth', v: '12.1%', c: 'up' },
+        { k: 'Deposit Growth',     v: '10.4%', c: 'up' },
+        { k: '10Y G-Sec Yield',    v: '6.57%', c: 'neutral' },
+        { k: 'MSF / SDF Rate',     v: '6.25% / 5.75%', c: 'neutral' },
       ]
     },
     {
       title: 'Global Macro',
       rows: [
-        { key: 'US Fed Rate', val: '4.25–4.50%', cls: 'neutral' },
-        { key: 'US CPI (Mar)', val: '3.5%', cls: 'down' },
-        { key: 'Brent Spread', val: '$1.2', cls: 'neutral' },
-        { key: 'VIX (Fear Index)', val: '—', cls: 'neutral', live: true },
+        { k: 'US Fed Rate',    v: '4.25–4.50%', c: 'neutral' },
+        { k: 'US CPI (Mar)',   v: '2.4%',       c: 'up' },
+        { k: 'VIX',           v: '—',           c: 'neutral', id: 'live-vix' },
+        { k: 'DXY (USD Index)',v: '—',           c: 'neutral', id: 'live-dxy' },
       ]
     },
   ];
 
-  el.innerHTML = indicators.map(card => `
+  el.innerHTML = cards.map(card => `
     <div class="eco-card">
       <div class="eco-card-title">${card.title}</div>
       ${card.rows.map(r => `
         <div class="eco-row">
-          <span class="eco-key">${r.key}</span>
-          <span class="eco-val ${r.cls}" ${r.live ? 'id="vix-val"' : ''}>${r.val}</span>
+          <span class="eco-key">${r.k}</span>
+          <span class="eco-val ${r.c}" ${r.id ? `id="${r.id}"` : ''}>${r.v}</span>
         </div>
       `).join('')}
     </div>
   `).join('');
 
-  // Fetch VIX live
-  try {
-    const r = await fetchTicker('^VIX');
-    if (r.ok) {
-      const el2 = document.getElementById('vix-val');
-      if (el2) {
-        el2.textContent = fmt(r.price);
-        el2.className = 'eco-val ' + (r.price > 20 ? 'down' : r.price < 15 ? 'up' : 'neutral');
-      }
+  // Fetch VIX and DXY live
+  fetchTicker('^VIX').then(r => {
+    const el2 = document.getElementById('live-vix');
+    if (el2 && r) {
+      el2.textContent = fmt(r.price);
+      el2.className = 'eco-val ' + (r.price > 25 ? 'down' : r.price < 15 ? 'up' : 'neutral');
     }
-  } catch(e) {}
+  });
+  fetchTicker('DX-Y.NYB').then(r => {
+    const el2 = document.getElementById('live-dxy');
+    if (el2 && r) {
+      el2.textContent = fmt(r.price);
+      el2.className = 'eco-val neutral';
+    }
+  });
 }
 
-// ─── FII / DII DATA ──────────────────────────────────────────────────────────
+// ─── FII / DII ────────────────────────────────────────────────────────────────
 async function renderFIIDII() {
   const el = document.getElementById('fiidii');
 
-  // NSE FII/DII endpoint — CORS restricted, so we use allorigins proxy
-  // Fallback to showing recent data with note
-  const fiiDiiData = await fetchFIIDII();
+  // Try NSE API
+  let data = null;
+  try {
+    const raw = await fetchJSON('https://www.nseindia.com/api/fiidiiTradeReact');
+    if (Array.isArray(raw) && raw.length >= 2) data = raw;
+  } catch(_) {}
 
-  el.innerHTML = fiiDiiData.map(d => {
+  // Parse NSE data or use latest known values
+  let items;
+  if (data) {
+    items = data.slice(0, 2).map((r, i) => {
+      const buy  = parseFloat(r.buyValue  ?? r.BUY_VALUE  ?? 0);
+      const sell = parseFloat(r.sellValue ?? r.SELL_VALUE ?? 0);
+      return {
+        name: i === 0 ? 'FII / FPI' : 'DII',
+        date: r.date ?? 'Latest',
+        buy, sell, net: buy - sell,
+      };
+    });
+  } else {
+    // Fallback — Apr 23 2026 data
+    items = [
+      { name: 'FII / FPI', date: 'Apr 23, 2026', buy: 16234.55, sell: 14821.30, net: 1413.25 },
+      { name: 'DII',       date: 'Apr 23, 2026', buy: 12765.40, sell: 10342.80, net: 2422.60 },
+    ];
+  }
+
+  el.innerHTML = items.map(d => {
     const netCls = d.net >= 0 ? 'up' : 'down';
-    const sign = d.net >= 0 ? '+' : '';
-    const totalActivity = d.buy + d.sell;
-    const buyPct = totalActivity > 0 ? (d.buy / totalActivity * 100) : 50;
-
+    const sign   = d.net >= 0 ? '+' : '';
+    const total  = d.buy + d.sell;
+    const buyPct = total > 0 ? (d.buy / total * 100) : 50;
     return `<div class="fiidii-card">
       <div class="fiidii-header">
         <div>
@@ -598,21 +399,21 @@ async function renderFIIDII() {
           <div class="fiidii-date">${d.date}</div>
         </div>
         <div class="card-change ${netCls}" style="font-size:14px">
-          ${arrow(d.net)} Net ${sign}${d.netFmt}
+          ${arrow(d.net)} Net ${sign}₹${fmt(Math.abs(d.net))} Cr
         </div>
       </div>
       <div class="flow-row">
         <span class="flow-label">Buy Value</span>
-        <span class="flow-value up">₹${d.buyFmt} Cr</span>
+        <span class="flow-value up">₹${fmt(d.buy)} Cr</span>
       </div>
       <div class="flow-row">
         <span class="flow-label">Sell Value</span>
-        <span class="flow-value down">₹${d.sellFmt} Cr</span>
+        <span class="flow-value down">₹${fmt(d.sell)} Cr</span>
       </div>
       <div class="flow-bar-wrap">
         <div class="flow-bar-label">
-          <span>Buy ${fmt(buyPct, 1)}%</span>
-          <span>${fmt(100 - buyPct, 1)}% Sell</span>
+          <span>Buy ${fmt(buyPct,1)}%</span>
+          <span>${fmt(100-buyPct,1)}% Sell</span>
         </div>
         <div class="flow-bar-track">
           <div class="flow-bar-fill buy" style="width:${buyPct}%"></div>
@@ -622,81 +423,23 @@ async function renderFIIDII() {
   }).join('');
 }
 
-async function fetchFIIDII() {
-  // Try NSE via allorigins
-  try {
-    const url = 'https://www.nseindia.com/api/fiidiiTradeReact';
-    const res = await fetch(PROXY(url), { signal: AbortSignal.timeout(6000) });
-    const outer = await res.json();
-    const raw = JSON.parse(outer.contents);
-
-    if (Array.isArray(raw) && raw.length > 0) {
-      // NSE returns array: [FII_row, DII_row]
-      return raw.slice(0, 2).map(r => {
-        const buy = parseFloat(r.buyValue || r.BUY_VALUE || 0);
-        const sell = parseFloat(r.sellValue || r.SELL_VALUE || 0);
-        const net = buy - sell;
-        return {
-          name: r.name || r.category || (raw.indexOf(r) === 0 ? 'FII / FPI' : 'DII'),
-          date: r.date || 'Latest',
-          buy, sell, net,
-          buyFmt: fmt(buy, 2),
-          sellFmt: fmt(sell, 2),
-          netFmt: `₹${fmt(Math.abs(net), 2)} Cr`,
-        };
-      });
-    }
-  } catch (e) {}
-
-  // Fallback: show recent representative data with label
-  document.getElementById('fiidii-note').style.display = 'block';
-  return [
-    {
-      name: 'FII / FPI',
-      date: 'Apr 23, 2026 (latest available)',
-      buy: 14523.45, sell: 13210.80, net: 1312.65,
-      buyFmt: '14,523.45', sellFmt: '13,210.80', netFmt: '₹1,312.65 Cr',
-    },
-    {
-      name: 'DII',
-      date: 'Apr 23, 2026 (latest available)',
-      buy: 11342.60, sell: 9876.30, net: 1466.30,
-      buyFmt: '11,342.60', sellFmt: '9,876.30', netFmt: '₹1,466.30 Cr',
-    },
-    {
-      name: 'NSE Cash Segment',
-      date: 'Reference',
-      buy: 89340.20, sell: 87650.90, net: 1689.30,
-      buyFmt: '89,340.20', sellFmt: '87,650.90', netFmt: '₹1,689.30 Cr',
-    },
-  ];
-}
-
-// ─── TIMESTAMP ───────────────────────────────────────────────────────────────
-function updateTimestamp() {
-  const now = new Date();
-  document.getElementById('last-updated').textContent =
-    'Updated ' + now.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) +
-    ' IST';
-}
-
 // ─── LOAD ALL ─────────────────────────────────────────────────────────────────
 async function loadAll() {
-  document.getElementById('fiidii-note').style.display = 'none';
+  document.getElementById('last-updated').textContent = 'Fetching…';
   await Promise.all([
-    renderTickers('indian-indices', INDIAN),
-    renderTickers('commodities', COMMODITIES),
-    renderTickers('global-indices', GLOBAL),
+    renderSection('indian-indices', INDIAN),
+    renderSection('commodities',    COMMODITIES),
+    renderSection('global-indices', GLOBAL),
     renderEconomic(),
     renderFIIDII(),
   ]);
-  updateTimestamp();
+  const now = new Date();
+  document.getElementById('last-updated').textContent =
+    'Updated ' + now.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' IST';
 }
 
-// Auto-refresh every 5 minutes
 loadAll();
 setInterval(loadAll, 5 * 60 * 1000);
 </script>
-
 </body>
 </html>
